@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+*.gif
+*.mp4
+*.png
+.streamlit/secrets.toml
