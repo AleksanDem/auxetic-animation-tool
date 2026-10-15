@@ -628,8 +628,19 @@ def main():
         render_mp4 = col_btn_mp4.button("🎥 Сгенерировать MP4 (H.264)", use_container_width=True)
         render_both = col_btn_all.button("⚡ Сгенерировать оба формата", use_container_width=True)
 
-        output_dir = os.path.join(CURRENT_DIR, "..", "..", "04_Artifacts", "01_Drafts", "Generated_Animations")
-        os.makedirs(output_dir, exist_ok=True)
+        # Безопасный выбор выходной папки (локальный режим капсулы vs облако Streamlit Cloud)
+        dissertation_root = os.path.abspath(os.path.join(CURRENT_DIR, "..", ".."))
+        if os.path.basename(dissertation_root) == "PHD_0826_Dissertation" and os.path.exists(os.path.join(dissertation_root, "04_Artifacts")):
+            output_dir = os.path.join(dissertation_root, "04_Artifacts", "01_Drafts", "Generated_Animations")
+        else:
+            output_dir = os.path.join(CURRENT_DIR, "output_animations")
+
+        try:
+            os.makedirs(output_dir, exist_ok=True)
+        except Exception:
+            import tempfile
+            output_dir = os.path.join(tempfile.gettempdir(), "auxetic_animations")
+            os.makedirs(output_dir, exist_ok=True)
 
         if render_gif or render_mp4 or render_both:
             progress_bar = st.progress(0.0)

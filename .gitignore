@@ -3,4 +3,5 @@ __pycache__/
 *.gif
 *.mp4
 *.png
+output_animations/
 .streamlit/secrets.toml
